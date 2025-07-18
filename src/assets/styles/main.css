@@ -1,0 +1,130 @@
+
+
+/* متغیرهای رنگ */
+:root {
+  --primary: #4a6fa5;
+  --primary-dark: #166088;
+  --secondary: #ff7e5f;
+  --light: #f8f9fa;
+  --dark: #343a40;
+  --success: #28a745;
+  --danger: #dc3545;
+  --warning: #ffc107;
+  --gray: #6c757d;
+}
+
+/* ریست استایل‌ها */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Vazir', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* استایل‌های پایه */
+body {
+  background-color: #f5f7fa;
+  color: var(--dark);
+  direction: rtl;
+  line-height: 1.6;
+}
+
+/* کلاس‌های کاربردی */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* استایل فرم‌ها */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s;
+}
+
+.form-control:focus {
+  border-color: var(--primary);
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(74, 111, 165, 0.25);
+}
+
+/* دکمه‌ها */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+}
+
+/* صفحه‌بندی */
+.page-title {
+  margin: 2rem 0;
+  color: var(--primary);
+  font-size: 2rem;
+}
+
+/* کارت‌ها */
+.card {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ناوبری */
+.navbar {
+  background-color: var(--primary);
+  padding: 1rem;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* استایل‌های مخصوص رستوران */
+.menu-item {
+  border: 1px solid #eee;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: transform 0.3s;
+}
+
+.menu-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* رسپانسیو */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 10px;
+  }
+  
+  .page-title {
+    font-size: 1.5rem;
+  }
+}

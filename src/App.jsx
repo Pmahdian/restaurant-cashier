@@ -2,7 +2,7 @@ import { RouterProvider } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import router from './config/routes';
 import LoadingSpinner from './components/UI/LoadingSpinner';
-import './assets/styles/main.scss';
+import './assets/styles/main.css';
 
 function App() {
   const { loading } = useAuth();
