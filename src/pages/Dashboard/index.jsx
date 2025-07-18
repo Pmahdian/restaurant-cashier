@@ -1,9 +1,19 @@
-import React from 'react';
+import { Outlet } from 'react-router-dom';
+import Header from '../../components/Layout/Header';
+import Sidebar from '../../components/Layout/Sidebar';
 
-const Dashboard = () => (
-  <div>
-    <h1>پنل مدیریت رستوران</h1>
-  </div>
-);
+const DashboardLayout = () => {
+  return (
+    <div className="dashboard-layout">
+      <Header />
+      <div className="dashboard-content">
+        <Sidebar />
+        <main className="main-content">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
+};
 
-export default Dashboard;
+export default DashboardLayout;

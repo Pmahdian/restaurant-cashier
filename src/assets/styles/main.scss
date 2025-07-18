@@ -1,0 +1,28 @@
+// متغیرها
+$primary: #4a6fa5;
+$primary-dark: #166088;
+
+// استایل‌های پایه
+body {
+  font-family: 'Vazir', sans-serif;
+  direction: rtl;
+  margin: 0;
+  background-color: #f5f7fa;
+}
+
+.dashboard-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.dashboard-content {
+  display: flex;
+  flex: 1;
+}
+
+.main-content {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}

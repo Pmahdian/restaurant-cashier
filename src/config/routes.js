@@ -1,7 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Login from '../pages/Auth/Login';
-import Dashboard from '../pages/Dashboard';
-import InvoicePage from '../pages/Invoice/InvoicePage';
+import DashboardLayout from '../pages/Dashboard';
 import ProtectedRoute from './ProtectedRoute';
 
 const router = createBrowserRouter([
@@ -13,18 +12,20 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: (
       <ProtectedRoute>
-        <Dashboard />
+        <DashboardLayout />
       </ProtectedRoute>
     ),
-  },
-  {
-    path: "/invoice/:id",
-    element: (
-      <ProtectedRoute>
-        <InvoicePage />
-      </ProtectedRoute>
-    ),
-  },
+    children: [
+      {
+        path: "menu",
+        element: <div>صفحه منو</div>
+      },
+      {
+        path: "orders",
+        element: <div>صفحه سفارشات</div>
+      }
+    ]
+  }
 ]);
 
 export default router;
