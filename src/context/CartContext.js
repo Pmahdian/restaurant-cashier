@@ -1,41 +1,76 @@
-// src/context/CartContext.js
 import { createContext, useState, useContext } from 'react';
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
-  const [serviceCharge, setServiceCharge] = useState(10); // درصد حق سرویس (پیش‌فرض 10%)
-  
+  const [serviceType, setServiceType] = useState('percent');
+  const [serviceValue, setServiceValue] = useState(10);
+  const [deliveryFee, setDeliveryFee] = useState(0);
+  const [discountType, setDiscountType] = useState('percent');
+  const [discountValue, setDiscountValue] = useState(0);
+
   const addToCart = (item) => {
-    setCart([...cart, item]);
+    setCart(prevCart => {
+      const existingItem = prevCart.find(cartItem => cartItem.id === item.id);
+      if (existingItem) {
+        return prevCart.map(cartItem =>
+          cartItem.id === item.id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        );
+      }
+      return [...prevCart, { ...item, quantity: 1 }];
+    });
   };
 
   const removeFromCart = (index) => {
-    const newCart = [...cart];
-    newCart.splice(index, 1);
-    setCart(newCart);
+    setCart(prevCart => {
+      const newCart = [...prevCart];
+      if (newCart[index].quantity > 1) {
+        newCart[index] = {
+          ...newCart[index],
+          quantity: newCart[index].quantity - 1
+        };
+        return newCart;
+      }
+      newCart.splice(index, 1);
+      return newCart;
+    });
   };
 
-  const updateServiceCharge = (value) => {
-    setServiceCharge(Number(value));
-  };
-
-  const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
-  const serviceAmount = (subtotal * serviceCharge) / 100;
-  const total = subtotal + serviceAmount;
+  const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  
+  const serviceAmount = serviceType === 'percent' 
+    ? (subtotal * serviceValue) / 100
+    : serviceValue;
+    
+  const discountAmount = discountType === 'percent'
+    ? (subtotal * discountValue) / 100
+    : discountValue;
+    
+  const total = subtotal + serviceAmount + deliveryFee - discountAmount;
 
   return (
     <CartContext.Provider 
       value={{ 
-        cart, 
-        addToCart, 
-        removeFromCart, 
+        cart,
+        addToCart,
+        removeFromCart,
         subtotal,
-        serviceCharge,
+        serviceType,
+        serviceValue,
         serviceAmount,
+        deliveryFee,
+        setDeliveryFee,
+        discountType,
+        discountValue,
+        discountAmount,
         total,
-        updateServiceCharge
+        setServiceType,
+        setServiceValue,
+        setDiscountType,
+        setDiscountValue
       }}
     >
       {children}

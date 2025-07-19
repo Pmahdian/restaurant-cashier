@@ -1,14 +1,18 @@
-// src/components/Invoice.js
 import { forwardRef } from 'react';
 import { Box, Typography, Divider } from '@mui/material';
 
 const Invoice = forwardRef(({ 
-  cart, 
+  cart,
   subtotal,
-  serviceCharge,
+  serviceType,
+  serviceValue,
   serviceAmount,
+  deliveryFee,
+  discountType,
+  discountValue,
+  discountAmount,
   total,
-  customerName 
+  customerName
 }, ref) => {
   const date = new Date().toLocaleString('fa-IR');
   
@@ -20,7 +24,7 @@ const Invoice = forwardRef(({
       mx: 'auto'
     }}>
       <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 'bold' }}>
-        🍽️ فاکتور رستوران
+        فاکتور رستوران
       </Typography>
       
       <Box display="flex" justifyContent="space-between" mb={1}>
@@ -35,10 +39,14 @@ const Invoice = forwardRef(({
       
       <Divider sx={{ my: 2 }} />
       
-      {cart.map((item, index) => (
-        <Box key={index} display="flex" justifyContent="space-between" mb={1}>
-          <Typography>{item.name}</Typography>
-          <Typography>{item.price.toLocaleString()} تومان</Typography>
+      {cart.map((item) => (
+        <Box key={item.id} display="flex" justifyContent="space-between" mb={1}>
+          <Typography>
+            {item.name} (تعداد: {item.quantity})
+          </Typography>
+          <Typography>
+            {(item.price * item.quantity).toLocaleString()} تومان
+          </Typography>
         </Box>
       ))}
       
@@ -50,11 +58,29 @@ const Invoice = forwardRef(({
       </Box>
       
       <Box display="flex" justifyContent="space-between">
-        <Typography>حق سرویس ({serviceCharge}%):</Typography>
-        <Typography>{serviceAmount.toLocaleString()} تومان</Typography>
+        <Typography>
+          حق سرویس ({serviceType === 'percent' ? `${serviceValue}%` : 'ثابت'}):
+        </Typography>
+        <Typography>+{serviceAmount.toLocaleString()} تومان</Typography>
       </Box>
       
-      <Divider sx={{ my: 1 }} />
+      {deliveryFee > 0 && (
+        <Box display="flex" justifyContent="space-between">
+          <Typography>کرایه پیک:</Typography>
+          <Typography>+{deliveryFee.toLocaleString()} تومان</Typography>
+        </Box>
+      )}
+      
+      {discountValue > 0 && (
+        <Box display="flex" justifyContent="space-between">
+          <Typography>
+            تخفیف ({discountType === 'percent' ? `${discountValue}%` : 'ثابت'}):
+          </Typography>
+          <Typography color="error">-{discountAmount.toLocaleString()} تومان</Typography>
+        </Box>
+      )}
+      
+      <Divider sx={{ my: 2 }} />
       
       <Box display="flex" justifyContent="space-between" sx={{ mt: 2 }}>
         <Typography variant="h6" fontWeight="bold">جمع کل:</Typography>
@@ -64,7 +90,7 @@ const Invoice = forwardRef(({
       </Box>
       
       <Typography variant="body2" align="center" sx={{ mt: 4, fontStyle: 'italic' }}>
-        با تشکر از انتخاب شما! 🌟
+        با تشکر از انتخاب شما
       </Typography>
     </Box>
   );

@@ -1,4 +1,3 @@
-// src/components/cart/CartItem.js
 import { useCart } from '../../context/CartContext';
 import { Box, Typography, IconButton } from '@mui/material';
 import { Delete as DeleteIcon } from '@mui/icons-material';
@@ -12,27 +11,32 @@ const CartItem = ({ item, index }) => {
       justifyContent="space-between" 
       alignItems="center"
       sx={{ 
-        p: 1,
+        p: 2,
         mb: 1,
-        borderRadius: 1,
-        bgcolor: 'background.paper',
-        boxShadow: 1
+        border: '1px solid #eee',
+        borderRadius: 1
       }}
     >
-      <Typography>
-        <span style={{ fontWeight: 'bold' }}>{item.name}</span>
-        <span style={{ fontSize: '0.8rem', color: 'text.secondary', display: 'block' }}>
-          {item.price.toLocaleString()} تومان
-        </span>
-      </Typography>
+      <Box>
+        <Typography fontWeight="bold">{item.name}</Typography>
+        <Typography variant="body2" color="text.secondary">
+          {item.price.toLocaleString()} تومان × {item.quantity}
+        </Typography>
+      </Box>
       
-      <IconButton 
-        color="error"
-        onClick={() => removeFromCart(index)}
-        size="small"
-      >
-        <DeleteIcon />
-      </IconButton>
+      <Box display="flex" alignItems="center">
+        <Typography sx={{ mx: 2, fontWeight: 'bold' }}>
+          {(item.price * item.quantity).toLocaleString()} تومان
+        </Typography>
+        <IconButton 
+          color="error" 
+          onClick={() => removeFromCart(index)}
+          size="small"
+          sx={{ bgcolor: '#ffeeee' }}
+        >
+          <DeleteIcon fontSize="small" />
+        </IconButton>
+      </Box>
     </Box>
   );
 };
