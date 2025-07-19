@@ -1,0 +1,11 @@
+/* src/index.css */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Vazirmatn', sans-serif;
+  direction: rtl;
+}
+
+#root {
+  min-height: 100vh;
+}
