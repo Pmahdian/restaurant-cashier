@@ -5,22 +5,15 @@ import CartList from '../components/cart/CartList';
 import { CartProvider } from '../context/CartContext';
 
 const menuItems = [
-  // ساندویچ‌ها
   { id: 1, name: "چیزبرگر", price: 80000, category: "ساندویچ" },
   { id: 2, name: "مرغ سوخاری", price: 75000, category: "ساندویچ" },
   { id: 3, name: "همبرگر ویژه", price: 90000, category: "ساندویچ" },
-  
-  // پیش غذاها
   { id: 4, name: "سالاد سزار", price: 45000, category: "پیش غذا" },
   { id: 5, name: "سوپ قارچ", price: 35000, category: "پیش غذا" },
   { id: 6, name: "پنیر سوخاری", price: 40000, category: "پیش غذا" },
-  
-  // نوشیدنی‌ها
   { id: 7, name: "نوشابه", price: 15000, category: "نوشیدنی" },
   { id: 8, name: "آب معدنی", price: 10000, category: "نوشیدنی" },
   { id: 9, name: "دوغ", price: 12000, category: "نوشیدنی" },
-  
-  // اضافات
   { id: 10, name: "سیب زمینی سرخ کرده", price: 30000, category: "اضافات" },
   { id: 11, name: "سس اضافه", price: 5000, category: "اضافات" },
   { id: 12, name: "ترشی", price: 8000, category: "اضافات" }
@@ -50,9 +43,8 @@ const POSPage = () => {
         </Typography>
 
         <Grid container sx={{ flex: 1, overflow: 'hidden' }}>
-          {/* بخش منو (60%) */}
-          <Grid sx={{ 
-            width: { xs: '100%', sm: '60%' },
+          {/* بخش منو */}
+          <Grid item xs={12} md={7} sx={{
             height: '100%',
             display: 'flex',
             flexDirection: 'column',
@@ -93,10 +85,17 @@ const POSPage = () => {
             </Box>
           </Grid>
 
-          {/* بخش فاکتور (40%) */}
-          <Grid sx={{ 
-            width: { xs: '100%', sm: '40%' },
-            height: '100%'
+          {/* بخش فاکتور */}
+          <Grid item xs={12} md={5} sx={{
+            height: '100%',
+            '@media print': {
+              display: 'block !important',
+              width: '100% !important',
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              zIndex: 9999
+            }
           }}>
             <Paper elevation={1} sx={{
               height: '100%',
