@@ -6,9 +6,11 @@ import CartList from '../components/cart/CartList';
 const POSPage = () => {
   const [category, setCategory] = React.useState('ساندویچ');
   
+  // حتماً مقدار اولیه تعریف کنید
   const menuItems = [
     { id: 1, name: "چیزبرگر", price: 80000, category: "ساندویچ" },
-    { id: 2, name: "نوشابه", price: 15000, category: "نوشیدنی" }
+    { id: 2, name: "نوشابه", price: 15000, category: "نوشیدنی" },
+    // ... سایر آیتم‌ها
   ];
 
   return (
@@ -19,6 +21,7 @@ const POSPage = () => {
             <Tab label="ساندویچ" value="ساندویچ" />
             <Tab label="نوشیدنی" value="نوشیدنی" />
           </Tabs>
+          {/* اطمینان حاصل کنید items ارسال می‌شود */}
           <MenuList items={menuItems.filter(i => i.category === category)} />
         </Paper>
       </Grid>

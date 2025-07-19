@@ -5,6 +5,8 @@ import { useCart } from '../../context/CartContext';
 const MenuItem = ({ item }) => {
   const { addToCart } = useCart();
 
+  if (!item) return null; // محافظت در برابر item undefined
+
   return (
     <Paper sx={{ p: 1, mb: 1 }}>
       <Typography variant="h6">{item.name}</Typography>
