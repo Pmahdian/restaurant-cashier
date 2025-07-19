@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useCart } from '../../context/CartContext';
 import { 
   Box, Typography, TextField, Paper, Divider, Stack, 
