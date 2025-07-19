@@ -1,28 +1,42 @@
-// متغیرها
-$primary: #4a6fa5;
-$primary-dark: #166088;
-
-// استایل‌های پایه
-body {
-  font-family: 'Vazir', sans-serif;
-  direction: rtl;
-  margin: 0;
-  background-color: #f5f7fa;
-}
-
-.dashboard-layout {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-
-.dashboard-content {
-  display: flex;
-  flex: 1;
-}
-
-.main-content {
-  flex: 1;
+.app-header {
+  background-color: #1e3a8a;
+  color: white;
   padding: 1rem;
-  overflow-y: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #f8f9fa;
+  border-left: 1px solid #dee2e6;
+  padding: 1rem;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin-bottom: 0.5rem;
+
+      a {
+        display: block;
+        padding: 0.5rem 1rem;
+        color: #333;
+        text-decoration: none;
+        border-radius: 4px;
+
+        &:hover {
+          background-color: #e9ecef;
+        }
+
+        &.active {
+          background-color: #4a6fa5;
+          color: white;
+        }
+      }
+    }
+  }
 }
