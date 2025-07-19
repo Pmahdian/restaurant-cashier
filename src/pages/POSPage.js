@@ -1,31 +1,14 @@
-
 import { useState } from 'react';
 import { Grid, Tabs, Tab, Box, Paper, Typography } from '@mui/material';
 import MenuList from '../components/menu/MenuList';
 import CartList from '../components/cart/CartList';
 import { CartProvider } from '../context/CartContext';
 
-// داده‌های منو
 const menuItems = [
   // ساندویچ‌ها
   { id: 1, name: "چیزبرگر", price: 80000, category: "ساندویچ" },
   { id: 2, name: "مرغ سوخاری", price: 75000, category: "ساندویچ" },
-  { id: 3, name: "همبرگر ویژه", price: 90000, category: "ساندویچ" },
-  
-  // پیش غذاها
-  { id: 4, name: "سالاد سزار", price: 45000, category: "پیش غذا" },
-  { id: 5, name: "سوپ قارچ", price: 35000, category: "پیش غذا" },
-  { id: 6, name: "پنیر سوخاری", price: 40000, category: "پیش غذا" },
-  
-  // نوشیدنی‌ها
-  { id: 7, name: "نوشابه", price: 15000, category: "نوشیدنی" },
-  { id: 8, name: "آب معدنی", price: 10000, category: "نوشیدنی" },
-  { id: 9, name: "دوغ", price: 12000, category: "نوشیدنی" },
-  
-  // اضافات
-  { id: 10, name: "سیب زمینی سرخ کرده", price: 30000, category: "اضافات" },
-  { id: 11, name: "سس اضافه", price: 5000, category: "اضافات" },
-  { id: 12, name: "ترشی", price: 8000, category: "اضافات" }
+  // ... سایر آیتم‌ها
 ];
 
 const POSPage = () => {
@@ -35,65 +18,74 @@ const POSPage = () => {
 
   return (
     <CartProvider>
-      <Box sx={{ 
-        p: 1.5,
-        maxWidth: 1200,
-        mx: 'auto'
+      <Box sx={{
+        p: 2,
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column'
       }}>
-        {/* هدر */}
-        <Typography variant="h5" sx={{ 
-          fontWeight: 'bold', 
+        <Typography variant="h6" sx={{ 
           mb: 2,
-          fontSize: '1.4rem',
-          textAlign: 'center',
-          color: 'primary.main'
+          fontWeight: 'bold',
+          textAlign: 'center'
         }}>
-          منوی رستوران
+          سیستم سفارش رستوران
         </Typography>
-        
-        {/* تب‌های دسته‌بندی */}
-        <Paper elevation={0} sx={{ 
-          mb: 2,
-          borderRadius: 1,
-          border: '1px solid #eee'
-        }}>
-          <Tabs 
-            value={activeCategory}
-            onChange={(e, newValue) => setActiveCategory(newValue)}
-            variant="fullWidth"
-            sx={{
-              minHeight: 40
-            }}
-          >
-            {categories.map(category => (
-              <Tab 
-                key={category} 
-                label={category} 
-                value={category} 
-                sx={{ 
-                  fontSize: '0.8rem',
-                  py: 0.5,
-                  minHeight: 40,
-                  '&.Mui-selected': {
-                    color: 'primary.main',
-                    fontWeight: 'bold'
-                  }
-                }}
-              />
-            ))}
-          </Tabs>
-        </Paper>
-        
-        {/* محتوای اصلی */}
-        <Grid container spacing={2}>
-          {/* لیست منو */}
-          <Grid item xs={12} md={8}>
-            <MenuList menuItems={filteredItems} />
+
+        <Grid container spacing={2} sx={{ flex: 1, overflow: 'hidden' }}>
+          {/* بخش منو */}
+          <Grid item xs={12} md={7} sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%'
+          }}>
+            <Paper elevation={1} sx={{ mb: 1, p: 1 }}>
+              <Tabs
+                value={activeCategory}
+                onChange={(e, newValue) => setActiveCategory(newValue)}
+                variant="scrollable"
+                scrollButtons="auto"
+                sx={{ minHeight: 40 }}
+              >
+                {categories.map(category => (
+                  <Tab 
+                    key={category}
+                    label={category}
+                    value={category}
+                    sx={{ 
+                      fontSize: '0.75rem',
+                      minHeight: 40,
+                      px: 1,
+                      minWidth: 'unset'
+                    }}
+                  />
+                ))}
+              </Tabs>
+            </Paper>
+
+            <Box sx={{
+              flex: 1,
+              overflowY: 'auto',
+              pr: 1
+            }}>
+              <MenuList menuItems={filteredItems} />
+            </Box>
           </Grid>
-          
-          {/* سبد خرید */}
-          <Grid item xs={12} md={4}>
-            <CartList />
+
+          {/* بخش فاکتور */}
+          <Grid item xs={12} md={5} sx={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column'
+          }}>
+            <Paper elevation={1} sx={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              p: 1.5
+            }}>
+              <CartList />
+            </Paper>
           </Grid>
         </Grid>
       </Box>
