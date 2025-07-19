@@ -6,15 +6,24 @@ import { CartProvider } from '../context/CartContext';
 
 const menuItems = [
   // ساندویچ‌ها
-  { id: 1, name: "برگر", price: 80000, category: "ساندویچ" },
-  { id: 2, name: " چبز برگر", price: 75000, category: "ساندویچ" },
-  { id: 3, name: "کوکتل", price: 75000, category: "ساندویچ" },
-  { id: 4, name: "کوکتل پنیری", price: 75000, category: "ساندویچ" },
-  { id: 5, name: " ژامبون تنوری", price: 75000, category: "ساندویچ" },
-  { id: 6, name: " ژامبون تنوری", price: 75000, category: "ساندویچ" },
-  { id: 7, name: " ژامبون تنوری", price: 75000, category: "ساندویچ" },
+  { id: 1, name: "چیزبرگر", price: 80000, category: "ساندویچ" },
+  { id: 2, name: "مرغ سوخاری", price: 75000, category: "ساندویچ" },
+  { id: 3, name: "همبرگر ویژه", price: 90000, category: "ساندویچ" },
   
-
+  // پیش غذاها
+  { id: 4, name: "سالاد سزار", price: 45000, category: "پیش غذا" },
+  { id: 5, name: "سوپ قارچ", price: 35000, category: "پیش غذا" },
+  { id: 6, name: "پنیر سوخاری", price: 40000, category: "پیش غذا" },
+  
+  // نوشیدنی‌ها
+  { id: 7, name: "نوشابه", price: 15000, category: "نوشیدنی" },
+  { id: 8, name: "آب معدنی", price: 10000, category: "نوشیدنی" },
+  { id: 9, name: "دوغ", price: 12000, category: "نوشیدنی" },
+  
+  // اضافات
+  { id: 10, name: "سیب زمینی سرخ کرده", price: 30000, category: "اضافات" },
+  { id: 11, name: "سس اضافه", price: 5000, category: "اضافات" },
+  { id: 12, name: "ترشی", price: 8000, category: "اضافات" }
 ];
 
 const POSPage = () => {
@@ -25,27 +34,31 @@ const POSPage = () => {
   return (
     <CartProvider>
       <Box sx={{
-        p: 2,
+        p: 1,
         height: '100vh',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        bgcolor: '#f5f5f5'
       }}>
         <Typography variant="h6" sx={{ 
-          mb: 2,
+          mb: 1,
           fontWeight: 'bold',
-          textAlign: 'center'
+          textAlign: 'center',
+          color: 'primary.main'
         }}>
           سیستم سفارش رستوران
         </Typography>
 
-        <Grid container spacing={2} sx={{ flex: 1, overflow: 'hidden' }}>
-          {/* بخش منو */}
-          <Grid item xs={12} md={7} sx={{
+        <Grid container sx={{ flex: 1, overflow: 'hidden' }}>
+          {/* بخش منو (60%) */}
+          <Grid sx={{ 
+            width: { xs: '100%', sm: '60%' },
+            height: '100%',
             display: 'flex',
             flexDirection: 'column',
-            height: '100%'
+            pr: 1
           }}>
-            <Paper elevation={1} sx={{ mb: 1, p: 1 }}>
+            <Paper elevation={1} sx={{ mb: 1, p: 0.5 }}>
               <Tabs
                 value={activeCategory}
                 onChange={(e, newValue) => setActiveCategory(newValue)}
@@ -60,7 +73,7 @@ const POSPage = () => {
                     value={category}
                     sx={{ 
                       fontSize: '0.75rem',
-                      minHeight: 40,
+                      minHeight: 36,
                       px: 1,
                       minWidth: 'unset'
                     }}
@@ -72,28 +85,29 @@ const POSPage = () => {
             <Box sx={{
               flex: 1,
               overflowY: 'auto',
-              pr: 1
+              bgcolor: 'background.paper',
+              borderRadius: 1,
+              p: 0.5
             }}>
               <MenuList menuItems={filteredItems} />
             </Box>
           </Grid>
 
-          {/* بخش فاکتور */}
-          <Grid item xs={12} md={7} sx={{
-          height: 'calc(100vh - 120px)', // ارتفاع ثابت
-          overflow: 'hidden',
-           pr: 1
-}}>
+          {/* بخش فاکتور (40%) */}
+          <Grid sx={{ 
+            width: { xs: '100%', sm: '40%' },
+            height: '100%'
+          }}>
             <Paper elevation={1} sx={{
-              flex: 1,
+              height: '100%',
               display: 'flex',
               flexDirection: 'column',
-              p: 1.5
+              p: 1,
+              bgcolor: 'background.paper'
             }}>
               <CartList />
             </Paper>
           </Grid>
-          
         </Grid>
       </Box>
     </CartProvider>
