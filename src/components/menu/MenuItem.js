@@ -7,7 +7,6 @@ const MenuItem = ({ item }) => {
   return (
     <Paper elevation={1} sx={{
       p: 0.5,
-      m: 0,
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
@@ -17,7 +16,6 @@ const MenuItem = ({ item }) => {
       <Typography variant="body2" noWrap sx={{ 
         fontWeight: 'bold',
         fontSize: '0.75rem',
-        lineHeight: '1.1',
         textAlign: 'right'
       }}>
         {item.name}
@@ -31,8 +29,7 @@ const MenuItem = ({ item }) => {
       }}>
         <Typography variant="caption" sx={{
           fontSize: '0.65rem',
-          color: 'text.secondary',
-          lineHeight: '1'
+          color: 'text.secondary'
         }}>
           {item.price.toLocaleString()} تومان
         </Typography>
