@@ -20,7 +20,7 @@ export const CartProvider = ({ children }) => {
             : cartItem
         );
       }
-      return [...prevCart, { ...item, quantity: 1 }];
+      return [...prevCart, { ...item, quantity: 1, notes: '' }];
     });
   };
 
@@ -35,6 +35,17 @@ export const CartProvider = ({ children }) => {
         return newCart;
       }
       newCart.splice(index, 1);
+      return newCart;
+    });
+  };
+
+  const updateItemNotes = (index, notes) => {
+    setCart(prevCart => {
+      const newCart = [...prevCart];
+      newCart[index] = {
+        ...newCart[index],
+        notes
+      };
       return newCart;
     });
   };
@@ -57,6 +68,7 @@ export const CartProvider = ({ children }) => {
         cart,
         addToCart,
         removeFromCart,
+        updateItemNotes,
         subtotal,
         serviceType,
         serviceValue,

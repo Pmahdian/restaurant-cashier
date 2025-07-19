@@ -1,39 +1,44 @@
+import { useState } from 'react';
 import { useCart } from '../../context/CartContext';
-import { Box, Typography, IconButton } from '@mui/material';
+import { Box, Typography, IconButton, TextField } from '@mui/material';
 import { Delete as DeleteIcon } from '@mui/icons-material';
 
 const CartItem = ({ item, index }) => {
-  const { removeFromCart } = useCart();
+  const { removeFromCart, updateItemNotes } = useCart();
+  const [notes, setNotes] = useState(item.notes || '');
+
+  const handleNotesChange = (e) => {
+    const newNotes = e.target.value;
+    setNotes(newNotes);
+    updateItemNotes(index, newNotes);
+  };
 
   return (
-    <Box 
-      display="flex" 
-      justifyContent="space-between" 
-      alignItems="center"
-      sx={{ 
-        p: 2,
-        mb: 1,
-        border: '1px solid #eee',
-        borderRadius: 1
-      }}
-    >
-      <Box>
+    <Box sx={{ 
+      p: 1,
+      mb: 1,
+      bgcolor: '#fff',
+      borderRadius: 1,
+      boxShadow: 1
+    }}>
+      <Box display="flex" justifyContent="space-between">
         <Typography fontWeight="bold">{item.name}</Typography>
-        <Typography variant="body2" color="text.secondary">
-          {item.price.toLocaleString()} تومان × {item.quantity}
+        <Typography>
+          {(item.price * item.quantity).toLocaleString()} تومان
         </Typography>
       </Box>
       
-      <Box display="flex" alignItems="center">
-        <Typography sx={{ mx: 2, fontWeight: 'bold' }}>
-          {(item.price * item.quantity).toLocaleString()} تومان
-        </Typography>
-        <IconButton 
-          color="error" 
-          onClick={() => removeFromCart(index)}
-          size="small"
-          sx={{ bgcolor: '#ffeeee' }}
-        >
+      <TextField
+        size="small"
+        placeholder="توضیحات (اختیاری)"
+        value={notes}
+        onChange={handleNotesChange}
+        fullWidth
+        sx={{ mt: 1 }}
+      />
+      
+      <Box display="flex" justifyContent="flex-end" mt={1}>
+        <IconButton onClick={() => removeFromCart(index)} size="small">
           <DeleteIcon fontSize="small" />
         </IconButton>
       </Box>
