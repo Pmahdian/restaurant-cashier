@@ -1,8 +1,7 @@
-// src/App.js
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { CssBaseline } from '@mui/material';
-import { CartProvider } from './context/CartContext'; // اضافه کردن این خط
-import POSPage from './pages/POSPage'; // اضافه کردن این خط
+import React from 'react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import POSPage from './pages/POSPage';
 
 const theme = createTheme({
   direction: 'rtl',
@@ -12,10 +11,9 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <CartProvider>
-        <POSPage />
-      </CartProvider>
+      <POSPage />
     </ThemeProvider>
   );
 }
+
 export default App;
