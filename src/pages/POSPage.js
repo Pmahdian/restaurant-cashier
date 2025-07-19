@@ -6,9 +6,13 @@ import { CartProvider } from '../context/CartContext';
 
 const menuItems = [
   // ساندویچ‌ها
-  { id: 1, name: "چیزبرگر", price: 80000, category: "ساندویچ" },
-  { id: 2, name: "مرغ سوخاری", price: 75000, category: "ساندویچ" },
-  // ... سایر آیتم‌ها
+  { id: 1, name: "برگر", price: 80000, category: "ساندویچ" },
+  { id: 2, name: " چبز برگر", price: 75000, category: "ساندویچ" },
+  { id: 3, name: "کوکتل", price: 75000, category: "ساندویچ" },
+  { id: 4, name: "کوکتل پنیری", price: 75000, category: "ساندویچ" },
+  { id: 5, name: " ژامبون تنوری", price: 75000, category: "ساندویچ" },
+  
+
 ];
 
 const POSPage = () => {
