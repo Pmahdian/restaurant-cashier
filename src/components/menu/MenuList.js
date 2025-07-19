@@ -8,10 +8,11 @@ const MenuList = ({ menuItems }) => {
       maxWidth: '100%',
       margin: '0 auto'
     }}>
-      {menuItems.map((item) => (
-        <Grid item xs={4} key={item.id} sx={{
+      {menuItems.map((item, index) => (
+        <Grid key={`${item.id}-${index}`} sx={{
+          width: '33.33%',
           padding: '4px !important',
-          minWidth: 0 // برای جلوگیری از overflow
+          minWidth: 0
         }}>
           <MenuItem item={item} />
         </Grid>
