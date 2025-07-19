@@ -1,6 +1,6 @@
 // src/components/menu/MenuItem.js
-import { Button } from "@mui/material";
-import { useCart } from "../../context/CartContext";
+import { Button } from '@mui/material';
+import { useCart } from '../../context/CartContext';
 
 const MenuItem = ({ item }) => {
   const { addToCart } = useCart();
@@ -9,7 +9,7 @@ const MenuItem = ({ item }) => {
     <Button 
       variant="contained" 
       onClick={() => addToCart(item)}
-      sx={{ margin: "5px", width: "200px" }}
+      sx={{ m: 1 }}
     >
       {item.name} - {item.price.toLocaleString()} تومان
     </Button>

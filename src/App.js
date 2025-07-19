@@ -1,13 +1,21 @@
 // src/App.js
-import React from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
+import { CartProvider } from './context/CartContext'; // اضافه کردن این خط
+import POSPage from './pages/POSPage'; // اضافه کردن این خط
+
+const theme = createTheme({
+  direction: 'rtl',
+});
 
 function App() {
   return (
-    <div style={{padding: '20px', fontFamily: 'Vazirmatn'}}>
-      <h1>تست اولیه موفق</h1>
-      <p>اگر این متن را می‌بینید، ساختار پایه درست است</p>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <CartProvider>
+        <POSPage />
+      </CartProvider>
+    </ThemeProvider>
   );
 }
-
 export default App;
