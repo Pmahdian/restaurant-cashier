@@ -1,18 +1,12 @@
 import React from 'react';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+import { CartProvider } from './context/CartContext';
 import POSPage from './pages/POSPage';
-
-const theme = createTheme({
-  direction: 'rtl',
-});
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+    <CartProvider>
       <POSPage />
-    </ThemeProvider>
+    </CartProvider>
   );
 }
 
