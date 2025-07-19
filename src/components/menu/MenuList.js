@@ -1,19 +1,12 @@
+import React from 'react';
 import { Grid } from '@mui/material';
 import MenuItem from './MenuItem';
 
-const MenuList = ({ menuItems }) => {
+const MenuList = ({ items = [] }) => { // مقدار پیش‌فرض آرایه خالی
   return (
-    <Grid container spacing={0.5} sx={{ 
-      padding: '4px',
-      maxWidth: '100%',
-      margin: '0 auto'
-    }}>
-      {menuItems.map((item, index) => (
-        <Grid key={`${item.id}-${index}`} sx={{
-          width: '33.33%',
-          padding: '4px !important',
-          minWidth: 0
-        }}>
+    <Grid container spacing={1}>
+      {items.map((item) => (
+        <Grid item xs={6} key={item.id}>
           <MenuItem item={item} />
         </Grid>
       ))}
