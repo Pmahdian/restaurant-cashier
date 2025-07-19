@@ -11,6 +11,8 @@ const menuItems = [
   { id: 3, name: "کوکتل", price: 75000, category: "ساندویچ" },
   { id: 4, name: "کوکتل پنیری", price: 75000, category: "ساندویچ" },
   { id: 5, name: " ژامبون تنوری", price: 75000, category: "ساندویچ" },
+  { id: 6, name: " ژامبون تنوری", price: 75000, category: "ساندویچ" },
+  { id: 7, name: " ژامبون تنوری", price: 75000, category: "ساندویچ" },
   
 
 ];
