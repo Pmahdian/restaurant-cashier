@@ -1,8 +1,9 @@
-// src/context/CartContext.js
-import { createContext, useState } from 'react';
+import { createContext, useState, useContext } from 'react';
 
-export const CartContext = createContext();
+// ایجاد کانتکست
+const CartContext = createContext();
 
+// پرووایدر
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   
@@ -23,4 +24,13 @@ export const CartProvider = ({ children }) => {
       {children}
     </CartContext.Provider>
   );
+};
+
+// هوک سفارشی useCart
+export const useCart = () => {
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error('useCart باید داخل CartProvider استفاده شود');
+  }
+  return context;
 };

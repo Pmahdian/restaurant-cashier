@@ -1,3 +1,4 @@
+// src/components/Invoice.js
 import { forwardRef } from 'react';
 import { Typography, Box } from '@mui/material';
 
@@ -27,9 +28,6 @@ const Invoice = forwardRef(({ cart, total, customerName }, ref) => {
         <Typography variant="h6">جمع کل:</Typography>
         <Typography variant="h6">{total.toLocaleString()} تومان</Typography>
       </Box>
-      <Typography variant="body2" align="center" sx={{ mt: 4 }}>
-        با تشکر از خرید شما!
-      </Typography>
     </Box>
   );
 });
