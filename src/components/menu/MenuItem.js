@@ -5,34 +5,34 @@ const MenuItem = ({ item }) => {
   const { addToCart } = useCart();
 
   return (
-    <Paper elevation={1} sx={{ 
-      p: 1,
-      m: 0.5,
+    <Paper elevation={1} sx={{
+      p: 0.5,
+      m: 0,
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
-      borderRadius: '8px'
+      borderRadius: '6px',
+      overflow: 'hidden'
     }}>
-      <Typography variant="body2" sx={{ 
+      <Typography variant="body2" noWrap sx={{ 
         fontWeight: 'bold',
-        fontSize: '0.8rem',
-        lineHeight: '1.2'
+        fontSize: '0.75rem',
+        lineHeight: '1.1',
+        textAlign: 'right'
       }}>
         {item.name}
       </Typography>
       
-      <Typography variant="caption" color="text.secondary" sx={{ 
-        fontSize: '0.7rem',
-        display: 'block',
-        mb: '4px'
+      <Box sx={{ 
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        mt: '2px'
       }}>
-        {item.category}
-      </Typography>
-      
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant="body2" sx={{ 
-          fontWeight: 'bold',
-          fontSize: '0.8rem'
+        <Typography variant="caption" sx={{
+          fontSize: '0.65rem',
+          color: 'text.secondary',
+          lineHeight: '1'
         }}>
           {item.price.toLocaleString()} تومان
         </Typography>
@@ -41,10 +41,11 @@ const MenuItem = ({ item }) => {
           size="small"
           onClick={() => addToCart(item)}
           sx={{
+            minWidth: '24px',
+            width: '24px',
+            height: '20px',
             fontSize: '0.6rem',
-            minWidth: '50px',
-            padding: '2px 6px',
-            borderRadius: '4px'
+            p: 0
           }}
         >
           +
