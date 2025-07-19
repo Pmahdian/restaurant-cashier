@@ -1,18 +1,18 @@
 // src/components/cart/CartItem.js
-import { Typography, Button } from "@mui/material";
-import { useCart } from "../../context/CartContext";
+import { useCart } from '../../context/CartContext';
+import { Typography, Button } from '@mui/material';
 
 const CartItem = ({ item, index }) => {
   const { removeFromCart } = useCart();
 
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "10px 0" }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', margin: '10px 0' }}>
       <Typography>
         {item.name} - {item.price.toLocaleString()} تومان
       </Typography>
       <Button 
         variant="outlined" 
-        color="error" 
+        color="error"
         onClick={() => removeFromCart(index)}
       >
         حذف
