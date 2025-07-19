@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useCart } from '../../context/CartContext';
 import { 
   Box, Typography, TextField, Divider, Stack, 
@@ -30,6 +30,56 @@ const CartList = () => {
   const [customerName, setCustomerName] = useState('');
   const invoiceRef = useRef();
 
+  const handlePrint = () => {
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>فاکتور رستوران</title>
+          <style>
+            @page {
+              size: auto;
+              margin: 5mm;
+            }
+            body {
+              font-family: Vazirmatn, sans-serif;
+              direction: rtl;
+              padding: 20px;
+            }
+            .invoice-header {
+              text-align: center;
+              margin-bottom: 15px;
+            }
+            .invoice-item {
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 5px;
+            }
+            .invoice-total {
+              font-weight: bold;
+              margin-top: 10px;
+              border-top: 1px solid #ddd;
+              padding-top: 10px;
+            }
+          </style>
+        </head>
+        <body>
+          <div id="invoice-content"></div>
+          <script>
+            window.onload = function() {
+              window.print();
+              setTimeout(() => window.close(), 1000);
+            };
+          </script>
+        </body>
+      </html>
+    `);
+    
+    // Render invoice content in the new window
+    const invoiceContent = printWindow.document.getElementById('invoice-content');
+    invoiceRef.current && invoiceContent.appendChild(invoiceRef.current.cloneNode(true));
+  };
+
   return (
     <Box sx={{ 
       display: 'flex',
@@ -41,7 +91,7 @@ const CartList = () => {
         mb: 1,
         fontSize: '0.9rem'
       }}>
-        فاکتور
+        سبد خرید ({cart.length})
       </Typography>
       
       <TextField
@@ -154,7 +204,7 @@ const CartList = () => {
       
       <IconButton
         size="small"
-        onClick={() => window.print()}
+        onClick={handlePrint}
         sx={{ 
           alignSelf: 'flex-end',
           fontSize: '0.75rem',
