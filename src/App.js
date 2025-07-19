@@ -1,24 +1,12 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { CartProvider } from './context/CartContext';
-import POSPage from './pages/POSPage';
-import LoginPage from './pages/LoginPage';
-import ReportsPage from './pages/ReportsPage';
-import { AuthProvider } from './context/AuthContext';
-import PrivateRoute from './components/PrivateRoute';
+// src/App.js
+import React from 'react';
 
 function App() {
   return (
-    <Router>
-      <AuthProvider>
-        <CartProvider>
-          <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/" element={<PrivateRoute><POSPage /></PrivateRoute>} />
-            <Route path="/reports" element={<PrivateRoute><ReportsPage /></PrivateRoute>} />
-          </Routes>
-        </CartProvider>
-      </AuthProvider>
-    </Router>
+    <div style={{padding: '20px', fontFamily: 'Vazirmatn'}}>
+      <h1>تست اولیه موفق</h1>
+      <p>اگر این متن را می‌بینید، ساختار پایه درست است</p>
+    </div>
   );
 }
 
