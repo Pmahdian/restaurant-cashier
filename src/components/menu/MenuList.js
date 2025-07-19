@@ -3,9 +3,9 @@ import MenuItem from './MenuItem';
 
 const MenuList = ({ menuItems }) => {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={1.5}>
       {menuItems.map((item) => (
-        <Grid item xs={12} sm={6} md={4} key={item.id}>
+        <Grid item xs={12} sm={6} key={item.id}>
           <MenuItem item={item} />
         </Grid>
       ))}
