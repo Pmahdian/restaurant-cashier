@@ -1,6 +1,5 @@
-
 import { useState } from 'react';
-import { Grid, Tabs, Tab, Box, Paper, Typography } from '@mui/material';
+import { Grid, Tabs, Tab, Box } from '@mui/material';
 import MenuList from '../components/menu/MenuList';
 import CartList from '../components/cart/CartList';
 import { CartProvider } from '../context/CartContext';
@@ -28,86 +27,56 @@ const POSPage = () => {
   return (
     <CartProvider>
       <Box sx={{
-        p: 1,
         height: '100vh',
         display: 'flex',
-        flexDirection: 'column',
-        bgcolor: '#f5f5f5'
+        bgcolor: '#fafafa'
       }}>
-        <Typography variant="h6" sx={{ 
-          mb: 1,
-          fontWeight: 'bold',
-          textAlign: 'center',
-          color: 'primary.main'
+        {/* بخش منو (70% عرض) */}
+        <Grid item xs={8} sx={{
+          height: '100%',
+          p: 1,
+          overflowY: 'auto'
         }}>
-          سیستم سفارش رستوران
-        </Typography>
-
-        <Grid container sx={{ flex: 1, overflow: 'hidden' }}>
-          {/* بخش منو */}
-          <Grid item xs={12} md={7} sx={{
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            pr: 1
-          }}>
-            <Paper elevation={1} sx={{ mb: 1, p: 0.5 }}>
-              <Tabs
-                value={activeCategory}
-                onChange={(e, newValue) => setActiveCategory(newValue)}
-                variant="scrollable"
-                scrollButtons="auto"
-                sx={{ minHeight: 40 }}
-              >
-                {categories.map(category => (
-                  <Tab 
-                    key={category}
-                    label={category}
-                    value={category}
-                    sx={{ 
-                      fontSize: '0.75rem',
-                      minHeight: 36,
-                      px: 1,
-                      minWidth: 'unset'
-                    }}
-                  />
-                ))}
-              </Tabs>
-            </Paper>
-
-            <Box sx={{
-              flex: 1,
-              overflowY: 'auto',
+          {/* تب‌های دسته‌بندی */}
+          <Tabs
+            value={activeCategory}
+            onChange={(e, newValue) => setActiveCategory(newValue)}
+            variant="scrollable"
+            sx={{ 
               bgcolor: 'background.paper',
               borderRadius: 1,
-              p: 0.5
-            }}>
-              <MenuList menuItems={filteredItems} />
-            </Box>
-          </Grid>
+              mb: 1,
+              px: 1
+            }}
+          >
+            {categories.map(category => (
+              <Tab 
+                key={category}
+                label={category}
+                value={category}
+                sx={{ 
+                  minWidth: 'unset',
+                  fontSize: '0.8rem',
+                  py: 1
+                }}
+              />
+            ))}
+          </Tabs>
 
-          {/* بخش فاکتور */}
-          <Grid item xs={12} md={5} sx={{
-            height: '100%',
-            '@media print': {
-              display: 'block !important',
-              width: '100% !important',
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              zIndex: 9999
-            }
-          }}>
-            <Paper elevation={1} sx={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              p: 1,
-              bgcolor: 'background.paper'
-            }}>
-              <CartList />
-            </Paper>
-          </Grid>
+          {/* لیست منو */}
+          <MenuList menuItems={filteredItems} />
+        </Grid>
+
+        {/* بخش سبد خرید (30% عرض) */}
+        <Grid item xs={4} sx={{
+          height: '100vh',
+          borderLeft: '1px solid #eee',
+          bgcolor: 'background.paper',
+          p: 1,
+          display: 'flex',
+          flexDirection: 'column'
+        }}>
+          <CartList />
         </Grid>
       </Box>
     </CartProvider>
