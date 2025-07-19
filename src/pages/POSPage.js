@@ -77,11 +77,11 @@ const POSPage = () => {
           </Grid>
 
           {/* بخش فاکتور */}
-          <Grid item xs={12} md={5} sx={{
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column'
-          }}>
+          <Grid item xs={12} md={7} sx={{
+          height: 'calc(100vh - 120px)', // ارتفاع ثابت
+          overflow: 'hidden',
+           pr: 1
+}}>
             <Paper elevation={1} sx={{
               flex: 1,
               display: 'flex',
@@ -91,6 +91,7 @@ const POSPage = () => {
               <CartList />
             </Paper>
           </Grid>
+          
         </Grid>
       </Box>
     </CartProvider>
