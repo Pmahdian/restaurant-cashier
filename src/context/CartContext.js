@@ -1,11 +1,11 @@
+// src/context/CartContext.js
 import { createContext, useState, useContext } from 'react';
 
-// ایجاد کانتکست
 const CartContext = createContext();
 
-// پرووایدر
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
+  const [serviceCharge, setServiceCharge] = useState(10); // درصد حق سرویس (پیش‌فرض 10%)
   
   const addToCart = (item) => {
     setCart([...cart, item]);
@@ -17,20 +17,30 @@ export const CartProvider = ({ children }) => {
     setCart(newCart);
   };
 
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  const updateServiceCharge = (value) => {
+    setServiceCharge(Number(value));
+  };
+
+  const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+  const serviceAmount = (subtotal * serviceCharge) / 100;
+  const total = subtotal + serviceAmount;
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, total }}>
+    <CartContext.Provider 
+      value={{ 
+        cart, 
+        addToCart, 
+        removeFromCart, 
+        subtotal,
+        serviceCharge,
+        serviceAmount,
+        total,
+        updateServiceCharge
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
 };
 
-// هوک سفارشی useCart
-export const useCart = () => {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error('useCart باید داخل CartProvider استفاده شود');
-  }
-  return context;
-};
+export const useCart = () => useContext(CartContext);
