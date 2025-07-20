@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Grid, Tabs, Tab, Box } from '@mui/material';
+import { Grid, Tabs, Tab, Box, Paper } from '@mui/material';
 import MenuList from '../components/menu/MenuList';
 import CartList from '../components/cart/CartList';
 import { CartProvider } from '../context/CartContext';
@@ -21,7 +21,7 @@ const menuItems = [
 
 const POSPage = () => {
   const [activeCategory, setActiveCategory] = useState('ساندویچ');
-  const categories = ['ساندویچ', 'پیش غذا', 'نوشیدنی', 'اضافات'];
+  const categories = [...new Set(menuItems.map(item => item.category))];
   const filteredItems = menuItems.filter(item => item.category === activeCategory);
 
   return (
@@ -29,55 +29,70 @@ const POSPage = () => {
       <Box sx={{
         height: '100vh',
         display: 'flex',
-        bgcolor: '#fafafa'
+        bgcolor: '#f5f5f5',
+        p: 1,
+        gap: 1
       }}>
-        {/* بخش منو (70% عرض) */}
-        <Grid item xs={8} sx={{
+        {/* بخش منو (60% عرض) */}
+        <Box sx={{
+          width: '60%',
           height: '100%',
-          p: 1,
-          overflowY: 'auto'
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1
         }}>
           {/* تب‌های دسته‌بندی */}
-          <Tabs
-            value={activeCategory}
-            onChange={(e, newValue) => setActiveCategory(newValue)}
-            variant="scrollable"
-            sx={{ 
-              bgcolor: 'background.paper',
-              borderRadius: 1,
-              mb: 1,
-              px: 1
-            }}
-          >
-            {categories.map(category => (
-              <Tab 
-                key={category}
-                label={category}
-                value={category}
-                sx={{ 
+          <Paper elevation={3} sx={{ 
+            p: 0.5,
+            borderRadius: '12px',
+            backgroundColor: '#fff'
+          }}>
+            <Tabs
+              value={activeCategory}
+              onChange={(e, newValue) => setActiveCategory(newValue)}
+              variant="scrollable"
+              scrollButtons="auto"
+              sx={{
+                '& .MuiTab-root': {
                   minWidth: 'unset',
+                  padding: '8px 12px',
                   fontSize: '0.8rem',
-                  py: 1
-                }}
-              />
-            ))}
-          </Tabs>
-
+                  fontWeight: 'bold'
+                },
+                '& .Mui-selected': {
+                  color: '#1976d2'
+                }
+              }}
+            >
+              {categories.map(category => (
+                <Tab 
+                  key={category}
+                  label={category}
+                  value={category}
+                />
+              ))}
+            </Tabs>
+          </Paper>
+          
           {/* لیست منو */}
-          <MenuList menuItems={filteredItems} />
-        </Grid>
+          <Paper elevation={3} sx={{ 
+            flex: 1,
+            p: 1,
+            borderRadius: '12px',
+            backgroundColor: '#fff',
+            overflow: 'hidden'
+          }}>
+            <MenuList menuItems={filteredItems} />
+          </Paper>
+        </Box>
 
-        {/* بخش سبد خرید (30% عرض) */}
-        <Grid item xs={4} sx={{
-          height: '100vh',
-          borderLeft: '1px solid #eee',
-          bgcolor: 'background.paper',
-          p: 1,
-          display: 'flex',
-          flexDirection: 'column'
+        {/* بخش سبد خرید (40% عرض) */}
+        <Box sx={{
+          width: '40%',
+          height: '100%'
         }}>
           <CartList />
-        </Grid>
+        </Box>
       </Box>
     </CartProvider>
   );

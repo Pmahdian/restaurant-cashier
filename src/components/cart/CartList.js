@@ -1,16 +1,62 @@
-import { useRef,useState } from 'react';
+import { useRef, useState } from 'react';
 import { useCart } from '../../context/CartContext';
 import { 
   Box, Typography, TextField, Divider, Stack, 
-  Button, Select, MenuItem, InputAdornment, Paper
+  Button, Select, MenuItem, InputAdornment, Paper, Grid
 } from '@mui/material';
 import { Print as PrintIcon } from '@mui/icons-material';
 import CartItem from './CartItem';
 import Invoice from '../Invoice';
 
 const CartList = () => {
-  // ... (کدهای قبلی useCart و stateها)
+  const { 
+    cart,
+    subtotal,
+    serviceType,
+    serviceValue,
+    serviceAmount,
+    deliveryFee,
+    setDeliveryFee,
+    discountType,
+    discountValue,
+    discountAmount,
+    total,
+    setServiceType,
+    setServiceValue,
+    setDiscountType,
+    setDiscountValue
+  } = useCart();
   
+  const [customerName, setCustomerName] = useState('');
+  const invoiceRef = useRef();
+
+  const handlePrint = () => {
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>فاکتور رستوران</title>
+          <style>
+            @page { size: auto; margin: 0; }
+            body { font-family: Vazirmatn; direction: rtl; }
+          </style>
+        </head>
+        <body>
+          <div id="invoice-content"></div>
+          <script>
+            window.onload = function() {
+              window.print();
+              setTimeout(() => window.close(), 1000);
+            };
+          </script>
+        </body>
+      </html>
+    `);
+    
+    const invoiceContent = printWindow.document.getElementById('invoice-content');
+    invoiceRef.current && invoiceContent.appendChild(invoiceRef.current.cloneNode(true));
+  };
+
   return (
     <Paper elevation={3} sx={{
       height: '100%',
