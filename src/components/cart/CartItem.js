@@ -1,47 +1,53 @@
 import { useState } from 'react';
 import { useCart } from '../../context/CartContext';
-import { Box, Typography, IconButton, TextField } from '@mui/material';
+import { 
+  Box, Typography, IconButton, TextField,
+  Avatar, Stack 
+} from '@mui/material';
 import { Delete as DeleteIcon } from '@mui/icons-material';
 
 const CartItem = ({ item, index }) => {
   const { removeFromCart, updateItemNotes } = useCart();
   const [notes, setNotes] = useState(item.notes || '');
 
-  const handleNotesChange = (e) => {
-    const newNotes = e.target.value;
-    setNotes(newNotes);
-    updateItemNotes(index, newNotes);
-  };
-
   return (
-    <Box sx={{ 
+    <Box sx={{
+      display: 'flex',
+      alignItems: 'center',
       p: 1,
-      mb: 1,
-      bgcolor: '#fff',
-      borderRadius: 1,
-      boxShadow: 1
+      backgroundColor: '#f9f9f9',
+      borderRadius: '8px',
+      gap: 1
     }}>
-      <Box display="flex" justifyContent="space-between">
-        <Typography fontWeight="bold">{item.name}</Typography>
-        <Typography>
-          {(item.price * item.quantity).toLocaleString()} تومان
+      <Avatar sx={{ 
+        width: 40, 
+        height: 40,
+        backgroundColor: '#e0e0e0',
+        color: '#333'
+      }}>
+        {item.quantity}
+      </Avatar>
+      
+      <Box sx={{ flex: 1 }}>
+        <Typography fontWeight="bold" noWrap>
+          {item.name}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {item.price.toLocaleString()} تومان
         </Typography>
       </Box>
       
-      <TextField
-        size="small"
-        placeholder="توضیحات (اختیاری)"
-        value={notes}
-        onChange={handleNotesChange}
-        fullWidth
-        sx={{ mt: 1 }}
-      />
+      <Typography sx={{ minWidth: '80px', textAlign: 'left' }}>
+        {(item.price * item.quantity).toLocaleString()} تومان
+      </Typography>
       
-      <Box display="flex" justifyContent="flex-end" mt={1}>
-        <IconButton onClick={() => removeFromCart(index)} size="small">
-          <DeleteIcon fontSize="small" />
-        </IconButton>
-      </Box>
+      <IconButton 
+        onClick={() => removeFromCart(index)}
+        size="small"
+        sx={{ color: '#f44336' }}
+      >
+        <DeleteIcon />
+      </IconButton>
     </Box>
   );
 };
