@@ -17,17 +17,15 @@ const CartList = () => {
     serviceAmount,
     deliveryFee,
     setDeliveryFee,
-    discountType,
-    discountValue,
     discountAmount,
     total,
     setServiceType,
     setServiceValue,
-    setDiscountType,
-    setDiscountValue
+    setDiscountAmount
   } = useCart();
   
   const [customerName, setCustomerName] = useState('');
+  const [orderNotes, setOrderNotes] = useState('');
   const invoiceRef = useRef();
 
   const handlePrint = () => {
@@ -62,24 +60,25 @@ const CartList = () => {
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
-      p: 1,
+      p: 2,
       borderRadius: '12px',
-      backgroundColor: '#fff'
+      backgroundColor: '#fff',
+      
     }}>
       {/* هدر سبد خرید */}
       <Box sx={{
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        mb: 1,
-        p: 1,
+        mb: 2,
+        p: 2,
         backgroundColor: '#f5f5f5',
         borderRadius: '8px'
       }}>
-        <Typography variant="subtitle1" fontWeight="bold">
+        <Typography variant="h6" fontWeight="bold">
           سبد خرید ({cart.length} آیتم)
         </Typography>
-        <Typography variant="subtitle1" fontWeight="bold">
+        <Typography variant="h6" fontWeight="bold" color="primary">
           {total.toLocaleString()} تومان
         </Typography>
       </Box>
@@ -88,9 +87,9 @@ const CartList = () => {
       <Box sx={{
         flex: 1,
         overflowY: 'auto',
-        mb: 1,
+        mb: 2,
         '& > *:not(:last-child)': {
-          mb: 0.5
+          mb: 1
         }
       }}>
         {cart.map((item, index) => (
@@ -98,33 +97,48 @@ const CartList = () => {
         ))}
       </Box>
 
-      {/* فرم مشتری و تنظیمات */}
-      <Box sx={{ mb: 1 }}>
+      {/* فرم اطلاعات سفارش */}
+      <Box sx={{ mb: 2 }}>
         <TextField
           label="نام مشتری"
-          size="small"
+          variant="outlined"
+          size="medium"
           value={customerName}
           onChange={(e) => setCustomerName(e.target.value)}
           fullWidth
-          sx={{ mb: 1 }}
+          sx={{ mb: 2 }}
+        />
+
+        <TextField
+          label="توضیحات سفارش (اختیاری)"
+          variant="outlined"
+          size="medium"
+          value={orderNotes}
+          onChange={(e) => setOrderNotes(e.target.value)}
+          fullWidth
+          multiline
+          rows={3}
+          sx={{ mb: 2 }}
         />
         
-        <Grid container spacing={1}>
-          <Grid item xs={6}>
+        {/* تنظیمات مالی */}
+        <Grid container spacing={2} sx={{ mb: 2 }}>
+          {/* حق سرویس */}
+          <Grid item xs={12} sm={6}>
+            <Typography variant="subtitle2" gutterBottom>حق سرویس</Typography>
             <Select
               fullWidth
-              size="small"
+              size="medium"
               value={serviceType}
               onChange={(e) => setServiceType(e.target.value)}
+              sx={{ mb: 1 }}
             >
-              <MenuItem value="percent">حق سرویس %</MenuItem>
-              <MenuItem value="fixed">حق سرویس ثابت</MenuItem>
+              <MenuItem value="percent">درصدی</MenuItem>
+              <MenuItem value="fixed">مبلغ ثابت</MenuItem>
             </Select>
-          </Grid>
-          <Grid item xs={6}>
             <TextField
               fullWidth
-              size="small"
+              size="medium"
               type="number"
               value={serviceValue}
               onChange={(e) => setServiceValue(Number(e.target.value))}
@@ -135,7 +149,71 @@ const CartList = () => {
               }}
             />
           </Grid>
+
+          {/* کرایه پیک */}
+          <Grid item xs={12} sm={6}>
+            <Typography variant="subtitle2" gutterBottom>کرایه پیک</Typography>
+            <TextField
+              fullWidth
+              size="medium"
+              type="number"
+              value={deliveryFee}
+              onChange={(e) => setDeliveryFee(Number(e.target.value))}
+              InputProps={{
+                endAdornment: <InputAdornment position="end">تومان</InputAdornment>,
+              }}
+            />
+          </Grid>
+
+          {/* تخفیف */}
+          <Grid item xs={12}>
+            <Typography variant="subtitle2" gutterBottom>تخفیف</Typography>
+            <TextField
+              fullWidth
+              size="medium"
+              type="number"
+              value={discountAmount}
+              onChange={(e) => setDiscountAmount(Number(e.target.value))}
+              InputProps={{
+                endAdornment: <InputAdornment position="end">تومان</InputAdornment>,
+              }}
+            />
+          </Grid>
         </Grid>
+
+        {/* جمع‌بندی مالی */}
+        <Box sx={{ 
+          p: 2,
+          backgroundColor: '#f9f9f9',
+          borderRadius: '8px',
+          mb: 2
+        }}>
+          <Stack spacing={1.5}>
+            <Box display="flex" justifyContent="space-between">
+              <Typography variant="subtitle1">جمع جزء:</Typography>
+              <Typography variant="subtitle1">{subtotal.toLocaleString()} تومان</Typography>
+            </Box>
+            <Box display="flex" justifyContent="space-between">
+              <Typography variant="subtitle1">حق سرویس:</Typography>
+              <Typography variant="subtitle1">+{serviceAmount.toLocaleString()} تومان</Typography>
+            </Box>
+            <Box display="flex" justifyContent="space-between">
+              <Typography variant="subtitle1">کرایه پیک:</Typography>
+              <Typography variant="subtitle1">+{deliveryFee.toLocaleString()} تومان</Typography>
+            </Box>
+            {discountAmount > 0 && (
+              <Box display="flex" justifyContent="space-between">
+                <Typography variant="subtitle1">تخفیف:</Typography>
+                <Typography variant="subtitle1" color="error">-{discountAmount.toLocaleString()} تومان</Typography>
+              </Box>
+            )}
+            <Divider sx={{ my: 1 }} />
+            <Box display="flex" justifyContent="space-between">
+              <Typography variant="h6" fontWeight="bold">جمع کل:</Typography>
+              <Typography variant="h6" fontWeight="bold">{total.toLocaleString()} تومان</Typography>
+            </Box>
+          </Stack>
+        </Box>
       </Box>
 
       {/* دکمه چاپ */}
@@ -143,11 +221,13 @@ const CartList = () => {
         variant="contained"
         fullWidth
         onClick={handlePrint}
-        startIcon={<PrintIcon />}
+        startIcon={<PrintIcon sx={{ fontSize: '1.5rem' }} />}
+        size="large"
         sx={{
-          py: 1.5,
+          py: 2,
           borderRadius: '8px',
           fontWeight: 'bold',
+          fontSize: '1.1rem',
           backgroundColor: '#1976d2',
           '&:hover': {
             backgroundColor: '#1565c0'
@@ -167,7 +247,8 @@ const CartList = () => {
           deliveryFee={deliveryFee}
           discountAmount={discountAmount}
           total={total}
-          customerName={customerName} 
+          customerName={customerName}
+          orderNotes={orderNotes}
         />
       </div>
     </Paper>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Grid, Tabs, Tab, Box, Paper } from '@mui/material';
+import { Tabs, Tab, Box, Paper } from '@mui/material';
 import MenuList from '../components/menu/MenuList';
 import CartList from '../components/cart/CartList';
 import { CartProvider } from '../context/CartContext';
@@ -33,9 +33,9 @@ const POSPage = () => {
         p: 1,
         gap: 1
       }}>
-        {/* بخش منو (60% عرض) */}
+        {/* بخش منو (30% عرض) */}
         <Box sx={{
-          width: '60%',
+          width: '30%',
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
@@ -86,9 +86,9 @@ const POSPage = () => {
           </Paper>
         </Box>
 
-        {/* بخش سبد خرید (40% عرض) */}
+        {/* بخش سبد خرید (70% عرض) */}
         <Box sx={{
-          width: '40%',
+          width: '70%',
           height: '100%'
         }}>
           <CartList />
