@@ -1,96 +1,62 @@
 import { forwardRef } from 'react';
-import { Box, Typography, Divider } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 const Invoice = forwardRef(({ 
   cart,
   subtotal,
-  serviceType,
-  serviceValue,
   serviceAmount,
   deliveryFee,
-  discountType,
-  discountValue,
   discountAmount,
   total,
   customerName
 }, ref) => {
-  const date = new Date().toLocaleString('fa-IR');
   
   return (
     <Box ref={ref} sx={{ 
-      p: 3, 
-      fontFamily: 'Vazirmatn',
-      maxWidth: '400px',
-      mx: 'auto'
+      width: '80mm',
+      p: 2,
+      fontFamily: 'Vazirmatn'
     }}>
-      <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 'bold' }}>
+      <Typography variant="h6" align="center" gutterBottom>
         فاکتور رستوران
       </Typography>
       
-      <Box display="flex" justifyContent="space-between" mb={1}>
-        <Typography>تاریخ:</Typography>
-        <Typography>{date}</Typography>
+      {/* اطلاعات مشتری */}
+      <Box sx={{ mb: 2 }}>
+        <Typography>مشتری: {customerName || 'میهمان'}</Typography>
+        <Typography>تاریخ: {new Date().toLocaleString('fa-IR')}</Typography>
       </Box>
       
-      <Box display="flex" justifyContent="space-between" mb={2}>
-        <Typography>مشتری:</Typography>
-        <Typography>{customerName || 'ناشناس'}</Typography>
-      </Box>
-      
-      <Divider sx={{ my: 2 }} />
-      
-      {cart.map((item) => (
-        <Box key={item.id} display="flex" justifyContent="space-between" mb={1}>
+      {/* لیست آیتم‌ها */}
+      {cart.map((item, index) => (
+        <Box key={index} sx={{ mb: 1 }}>
           <Typography>
-            {item.name} (تعداد: {item.quantity})
+            {item.quantity} × {item.name} 
+            {item.notes && ` (${item.notes})`}
           </Typography>
-          <Typography>
+          <Typography align="left">
             {(item.price * item.quantity).toLocaleString()} تومان
           </Typography>
         </Box>
       ))}
       
-      <Divider sx={{ my: 2 }} />
-      
-      <Box display="flex" justifyContent="space-between">
-        <Typography>جمع جزء:</Typography>
-        <Typography>{subtotal.toLocaleString()} تومان</Typography>
-      </Box>
-      
-      <Box display="flex" justifyContent="space-between">
-        <Typography>
-          حق سرویس ({serviceType === 'percent' ? `${serviceValue}%` : 'ثابت'}):
-        </Typography>
-        <Typography>+{serviceAmount.toLocaleString()} تومان</Typography>
-      </Box>
-      
-      {deliveryFee > 0 && (
-        <Box display="flex" justifyContent="space-between">
-          <Typography>کرایه پیک:</Typography>
-          <Typography>+{deliveryFee.toLocaleString()} تومان</Typography>
-        </Box>
-      )}
-      
-      {discountValue > 0 && (
-        <Box display="flex" justifyContent="space-between">
-          <Typography>
-            تخفیف ({discountType === 'percent' ? `${discountValue}%` : 'ثابت'}):
-          </Typography>
-          <Typography color="error">-{discountAmount.toLocaleString()} تومان</Typography>
-        </Box>
-      )}
-      
-      <Divider sx={{ my: 2 }} />
-      
-      <Box display="flex" justifyContent="space-between" sx={{ mt: 2 }}>
-        <Typography variant="h6" fontWeight="bold">جمع کل:</Typography>
-        <Typography variant="h6" fontWeight="bold">
-          {total.toLocaleString()} تومان
+      {/* جمع‌بندی */}
+      <Box sx={{ mt: 2, borderTop: '1px dashed #000', pt: 1 }}>
+        <Typography>جمع جزء: {subtotal.toLocaleString()} تومان</Typography>
+        <Typography>حق سرویس: +{serviceAmount.toLocaleString()} تومان</Typography>
+        {deliveryFee > 0 && (
+          <Typography>هزینه پیک: +{deliveryFee.toLocaleString()} تومان</Typography>
+        )}
+        {discountAmount > 0 && (
+          <Typography>تخفیف: -{discountAmount.toLocaleString()} تومان</Typography>
+        )}
+        <Typography fontWeight="bold" sx={{ mt: 1 }}>
+          جمع کل: {total.toLocaleString()} تومان
         </Typography>
       </Box>
       
-      <Typography variant="body2" align="center" sx={{ mt: 4, fontStyle: 'italic' }}>
-        با تشکر از انتخاب شما
+      <Typography align="center" sx={{ mt: 3 }}>
+        با تشکر از خرید شما
       </Typography>
     </Box>
   );
