@@ -1,14 +1,12 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useMemo } from 'react';
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
-  const [serviceType, setServiceType] = useState('percent');
-  const [serviceValue, setServiceValue] = useState(10);
   const [deliveryFee, setDeliveryFee] = useState(0);
-  const [discountType, setDiscountType] = useState('percent');
-  const [discountValue, setDiscountValue] = useState(0);
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [serviceAmount, setServiceAmount] = useState(0);
 
   const addToCart = (item) => {
     setCart(prevCart => {
@@ -20,7 +18,7 @@ export const CartProvider = ({ children }) => {
             : cartItem
         );
       }
-      return [...prevCart, { ...item, quantity: 1, notes: '' }];
+      return [...prevCart, { ...item, quantity: 1 }];
     });
   };
 
@@ -39,28 +37,15 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  const updateItemNotes = (index, notes) => {
-    setCart(prevCart => {
-      const newCart = [...prevCart];
-      newCart[index] = {
-        ...newCart[index],
-        notes
-      };
-      return newCart;
-    });
-  };
+  const subtotal = useMemo(() => 
+    cart.reduce((sum, item) => sum + (item.price * item.quantity), 0), 
+    [cart]
+  );
 
-  const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  
-  const serviceAmount = serviceType === 'percent' 
-    ? (subtotal * serviceValue) / 100
-    : serviceValue;
-    
-  const discountAmount = discountType === 'percent'
-    ? (subtotal * discountValue) / 100
-    : discountValue;
-    
-  const total = subtotal + serviceAmount + deliveryFee - discountAmount;
+  const total = useMemo(() => 
+    subtotal + serviceAmount + deliveryFee - discountAmount,
+    [subtotal, serviceAmount, deliveryFee, discountAmount]
+  );
 
   return (
     <CartContext.Provider 
@@ -68,21 +53,14 @@ export const CartProvider = ({ children }) => {
         cart,
         addToCart,
         removeFromCart,
-        updateItemNotes,
         subtotal,
-        serviceType,
-        serviceValue,
         serviceAmount,
         deliveryFee,
         setDeliveryFee,
-        discountType,
-        discountValue,
         discountAmount,
+        setDiscountAmount,
         total,
-        setServiceType,
-        setServiceValue,
-        setDiscountType,
-        setDiscountValue
+        setServiceAmount
       }}
     >
       {children}
