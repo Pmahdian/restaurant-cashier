@@ -13,6 +13,7 @@ const CartList = () => {
     cart,
     subtotal,
     serviceAmount,
+    setServiceAmount,
     deliveryFee,
     setDeliveryFee,
     discountAmount,
@@ -97,21 +98,26 @@ const CartList = () => {
         mb: 1
       }}>
         <Grid container spacing={1}>
+          {/* حق پیک */}
           <Grid item xs={4}>
             <TextField
               fullWidth
               size="small"
-              label="پیک"
+              label="حق پیک"
               type="number"
               value={deliveryFee}
               onChange={(e) => setDeliveryFee(Number(e.target.value))}
               InputProps={{
-                endAdornment: <InputAdornment position="end">ت</InputAdornment>,
-                inputProps: { style: { textAlign: 'left' } }
+                endAdornment: <InputAdornment position="end">تومان</InputAdornment>,
+                inputProps: { 
+                  style: { textAlign: 'left' },
+                  min: 0 
+                }
               }}
-              sx={{ '& .MuiInputBase-input': { padding: '8px' } }}
             />
           </Grid>
+          
+          {/* تخفیف */}
           <Grid item xs={4}>
             <TextField
               fullWidth
@@ -121,12 +127,16 @@ const CartList = () => {
               value={discountAmount}
               onChange={(e) => setDiscountAmount(Number(e.target.value))}
               InputProps={{
-                endAdornment: <InputAdornment position="end">ت</InputAdornment>,
-                inputProps: { style: { textAlign: 'left' } }
+                endAdornment: <InputAdornment position="end">تومان</InputAdornment>,
+                inputProps: { 
+                  style: { textAlign: 'left' },
+                  min: 0 
+                }
               }}
-              sx={{ '& .MuiInputBase-input': { padding: '8px' } }}
             />
           </Grid>
+          
+          {/* حق سرویس */}
           <Grid item xs={4}>
             <TextField
               fullWidth
@@ -134,12 +144,14 @@ const CartList = () => {
               label="حق سرویس"
               type="number"
               value={serviceAmount}
-              disabled
+              onChange={(e) => setServiceAmount(Number(e.target.value))}
               InputProps={{
-                endAdornment: <InputAdornment position="end">ت</InputAdornment>,
-                inputProps: { style: { textAlign: 'left' } }
+                endAdornment: <InputAdornment position="end">تومان</InputAdornment>,
+                inputProps: { 
+                  style: { textAlign: 'left' },
+                  min: 0 
+                }
               }}
-              sx={{ '& .MuiInputBase-input': { padding: '8px' } }}
             />
           </Grid>
         </Grid>

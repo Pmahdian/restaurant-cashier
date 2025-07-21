@@ -55,12 +55,12 @@ export const CartProvider = ({ children }) => {
         removeFromCart,
         subtotal,
         serviceAmount,
+        setServiceAmount,
         deliveryFee,
         setDeliveryFee,
         discountAmount,
         setDiscountAmount,
-        total,
-        setServiceAmount
+        total
       }}
     >
       {children}
