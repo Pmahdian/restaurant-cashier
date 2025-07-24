@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -11,21 +12,5 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-// تابع جدید برای ذخیره فاکتور
-const saveInvoice = async (invoiceData) => {
-  try {
-    const docRef = await addDoc(collection(db, "invoices"), {
-      ...invoiceData,
-      createdAt: serverTimestamp(),
-      status: "completed"
-    });
-    return docRef.id;
-  } catch (e) {
-    console.error("Error adding invoice: ", e);
-    return null;
-  }
-};
-
-export { db, saveInvoice };
+export const db = getFirestore(app);
+export const auth = getAuth(app);
