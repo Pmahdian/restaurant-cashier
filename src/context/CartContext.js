@@ -5,18 +5,9 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [customerName, setCustomerName] = useState('میهمان');
-  
-  // حق سرویس
-  const [serviceType, setServiceType] = useState('percent');
-  const [serviceValue, setServiceValue] = useState(10);
-  
-  // حق پیک
-  const [deliveryType, setDeliveryType] = useState('fixed');
-  const [deliveryValue, setDeliveryValue] = useState(0);
-  
-  // تخفیف
-  const [discountType, setDiscountType] = useState('fixed');
-  const [discountValue, setDiscountValue] = useState(0);
+  const [deliveryFee, setDeliveryFee] = useState(0);
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [serviceAmount, setServiceAmount] = useState(0);
 
   const addToCart = (item) => {
     setCart(prevCart => {
@@ -52,27 +43,6 @@ export const CartProvider = ({ children }) => {
     [cart]
   );
 
-  const serviceAmount = useMemo(() => 
-    serviceType === 'percent' 
-      ? (subtotal * serviceValue) / 100 
-      : serviceValue,
-    [serviceType, serviceValue, subtotal]
-  );
-
-  const deliveryFee = useMemo(() => 
-    deliveryType === 'percent' 
-      ? (subtotal * deliveryValue) / 100 
-      : deliveryValue,
-    [deliveryType, deliveryValue, subtotal]
-  );
-
-  const discountAmount = useMemo(() => 
-    discountType === 'percent' 
-      ? (subtotal * discountValue) / 100 
-      : discountValue,
-    [discountType, discountValue, subtotal]
-  );
-
   const total = useMemo(() => 
     subtotal + serviceAmount + deliveryFee - discountAmount,
     [subtotal, serviceAmount, deliveryFee, discountAmount]
@@ -85,21 +55,12 @@ export const CartProvider = ({ children }) => {
         addToCart,
         removeFromCart,
         subtotal,
-        serviceType,
-        serviceValue,
-        setServiceType,
-        setServiceValue,
         serviceAmount,
-        deliveryType,
-        deliveryValue,
-        setDeliveryType,
-        setDeliveryValue,
+        setServiceAmount,
         deliveryFee,
-        discountType,
-        discountValue,
-        setDiscountType,
-        setDiscountValue,
+        setDeliveryFee,
         discountAmount,
+        setDiscountAmount,
         total,
         customerName,
         setCustomerName
@@ -110,4 +71,10 @@ export const CartProvider = ({ children }) => {
   );
 };
 
-export const useCart = () => useContext(CartContext);
+export const useCart = () => {
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error('useCart must be used within a CartProvider');
+  }
+  return context;
+};
