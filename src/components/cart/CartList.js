@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { useCart } from '../../context/CartContext';
 import { 
   Box, Typography, TextField, Divider, Stack, 
-  Button, InputAdornment, Paper, Grid
+  Button, Paper, Grid
 } from '@mui/material';
 import { Print as PrintIcon } from '@mui/icons-material';
 import CartItem from './CartItem';
@@ -18,10 +18,12 @@ const CartList = () => {
     setDeliveryFee,
     discountAmount,
     setDiscountAmount,
-    total
+    total,
+    customerName,
+    setCustomerName
   } = useCart();
   
-  const [customerName, setCustomerName] = useState('');
+  const [orderNotes, setOrderNotes] = useState('');
   const invoiceRef = useRef();
 
   const handlePrint = () => {
@@ -76,6 +78,16 @@ const CartList = () => {
         </Typography>
       </Box>
 
+      {/* نام مشتری */}
+      <TextField
+        label="نام مشتری"
+        size="small"
+        value={customerName}
+        onChange={(e) => setCustomerName(e.target.value)}
+        fullWidth
+        sx={{ mb: 1 }}
+      />
+
       {/* لیست آیتم‌ها (چیدمان شبکه‌ای) */}
       <Box sx={{
         flex: 1,
@@ -107,12 +119,9 @@ const CartList = () => {
               type="number"
               value={deliveryFee}
               onChange={(e) => setDeliveryFee(Number(e.target.value))}
-              InputProps={{
-                endAdornment: <InputAdornment position="end">تومان</InputAdornment>,
-                inputProps: { 
-                  style: { textAlign: 'left' },
-                  min: 0 
-                }
+              inputProps={{ 
+                min: 0,
+                style: { textAlign: 'left' }
               }}
             />
           </Grid>
@@ -126,12 +135,9 @@ const CartList = () => {
               type="number"
               value={discountAmount}
               onChange={(e) => setDiscountAmount(Number(e.target.value))}
-              InputProps={{
-                endAdornment: <InputAdornment position="end">تومان</InputAdornment>,
-                inputProps: { 
-                  style: { textAlign: 'left' },
-                  min: 0 
-                }
+              inputProps={{ 
+                min: 0,
+                style: { textAlign: 'left' }
               }}
             />
           </Grid>
@@ -145,46 +151,75 @@ const CartList = () => {
               type="number"
               value={serviceAmount}
               onChange={(e) => setServiceAmount(Number(e.target.value))}
-              InputProps={{
-                endAdornment: <InputAdornment position="end">تومان</InputAdornment>,
-                inputProps: { 
-                  style: { textAlign: 'left' },
-                  min: 0 
-                }
+              inputProps={{ 
+                min: 0,
+                style: { textAlign: 'left' }
               }}
             />
           </Grid>
         </Grid>
       </Box>
 
-      {/* جمع‌بندی فشرده */}
+      {/* جمع‌بندی مالی */}
       <Box sx={{ 
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
         p: 1,
+        backgroundColor: '#f5f5f5',
+        borderRadius: '6px',
         mb: 1
       }}>
-        <Typography variant="body2">جمع کل:</Typography>
-        <Typography variant="subtitle2" fontWeight="bold">
-          {total.toLocaleString()} تومان
-        </Typography>
+        <Stack spacing={0.5}>
+          <Box display="flex" justifyContent="space-between">
+            <Typography variant="body2">جمع جزء:</Typography>
+            <Typography variant="body2">{subtotal.toLocaleString()} تومان</Typography>
+          </Box>
+          <Box display="flex" justifyContent="space-between">
+            <Typography variant="body2">حق سرویس:</Typography>
+            <Typography variant="body2">+{serviceAmount.toLocaleString()} تومان</Typography>
+          </Box>
+          <Box display="flex" justifyContent="space-between">
+            <Typography variant="body2">حق پیک:</Typography>
+            <Typography variant="body2">+{deliveryFee.toLocaleString()} تومان</Typography>
+          </Box>
+          {discountAmount > 0 && (
+            <Box display="flex" justifyContent="space-between">
+              <Typography variant="body2">تخفیف:</Typography>
+              <Typography variant="body2" color="error">-{discountAmount.toLocaleString()} تومان</Typography>
+            </Box>
+          )}
+          <Divider sx={{ my: 0.5 }} />
+          <Box display="flex" justifyContent="space-between">
+            <Typography variant="subtitle1" fontWeight="bold">جمع کل:</Typography>
+            <Typography variant="subtitle1" fontWeight="bold">{total.toLocaleString()} تومان</Typography>
+          </Box>
+        </Stack>
       </Box>
 
-      {/* دکمه چاپ کوچک */}
+      {/* توضیحات سفارش */}
+      <TextField
+        label="توضیحات سفارش (اختیاری)"
+        size="small"
+        value={orderNotes}
+        onChange={(e) => setOrderNotes(e.target.value)}
+        fullWidth
+        multiline
+        rows={2}
+        sx={{ mb: 1 }}
+      />
+
+      {/* دکمه چاپ */}
       <Button
-        variant="outlined"
+        variant="contained"
         size="small"
         onClick={handlePrint}
         startIcon={<PrintIcon fontSize="small" />}
         sx={{
           alignSelf: 'flex-end',
-          p: '4px 8px',
-          minWidth: 'unset',
-          fontSize: '0.75rem'
+          px: 2,
+          py: 1,
+          fontSize: '0.8rem'
         }}
       >
-        چاپ
+        چاپ فاکتور
       </Button>
 
       {/* کامپوننت مخفی برای چاپ */}
@@ -197,7 +232,8 @@ const CartList = () => {
           deliveryFee={deliveryFee}
           discountAmount={discountAmount}
           total={total}
-          customerName={customerName} 
+          customerName={customerName}
+          orderNotes={orderNotes}
         />
       </div>
     </Paper>

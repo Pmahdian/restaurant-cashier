@@ -42,13 +42,13 @@ const Invoice = forwardRef(({
       
       {/* جمع‌بندی */}
       <Box sx={{ mt: 2, borderTop: '1px dashed #000', pt: 1 }}>
-        <Typography>جمع جزء: {subtotal.toLocaleString()} تومان</Typography>
-        <Typography>حق سرویس: +{serviceAmount.toLocaleString()} تومان</Typography>
+        <Typography>جمع جزء: {subtotal.toLocaleString()} </Typography>
+        <Typography>حق سرویس: +{serviceAmount.toLocaleString()} </Typography>
         {deliveryFee > 0 && (
-          <Typography>هزینه پیک: +{deliveryFee.toLocaleString()} تومان</Typography>
+          <Typography>هزینه پیک: +{deliveryFee.toLocaleString()} </Typography>
         )}
         {discountAmount > 0 && (
-          <Typography>تخفیف: -{discountAmount.toLocaleString()} تومان</Typography>
+          <Typography>تخفیف: -{discountAmount.toLocaleString()} </Typography>
         )}
         <Typography fontWeight="bold" sx={{ mt: 1 }}>
           جمع کل: {total.toLocaleString()} تومان
