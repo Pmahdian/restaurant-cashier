@@ -91,11 +91,7 @@ const CartList = () => {
             value={service.value === 0 ? '' : service.value}
             onChange={(e) => setService({...service, value: handleValueChange('service', e.target.value)})}
             fullWidth
-            InputProps={{
-              endAdornment: service.type === 'percent' ? 
-                <InputAdornment position="end">%</InputAdornment> : 
-                <InputAdornment position="end">تومان</InputAdornment>,
-            }}
+           
           />
         </Grid>
 
@@ -116,11 +112,7 @@ const CartList = () => {
             value={delivery.value === 0 ? '' : delivery.value}
             onChange={(e) => setDelivery({...delivery, value: handleValueChange('delivery', e.target.value)})}
             fullWidth
-            InputProps={{
-              endAdornment: delivery.type === 'percent' ? 
-                <InputAdornment position="end">%</InputAdornment> : 
-                <InputAdornment position="end">تومان</InputAdornment>,
-            }}
+           
           />
         </Grid>
 
@@ -141,11 +133,7 @@ const CartList = () => {
             value={discount.value === 0 ? '' : discount.value}
             onChange={(e) => setDiscount({...discount, value: handleValueChange('discount', e.target.value)})}
             fullWidth
-            InputProps={{
-              endAdornment: discount.type === 'percent' ? 
-                <InputAdornment position="end">%</InputAdornment> : 
-                <InputAdornment position="end">تومان</InputAdornment>,
-            }}
+           
           />
         </Grid>
       </Grid>
