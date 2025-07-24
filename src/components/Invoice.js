@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import { 
   Box, Typography, Table, TableBody, TableCell, 
-  TableContainer, TableHead, TableRow, Paper 
+  TableContainer, TableHead, TableRow, Paper, Divider
 } from '@mui/material';
 
 const Invoice = forwardRef((props, ref) => {
@@ -22,100 +22,132 @@ const Invoice = forwardRef((props, ref) => {
       fontFamily: 'Vazirmatn',
       direction: 'rtl'
     }}>
-      <Typography variant="h6" align="center" gutterBottom sx={{ fontWeight: 'bold' }}>
+      {/* هدر فاکتور */}
+      <Typography variant="h6" align="center" sx={{ 
+        fontWeight: 'bold',
+        mb: 2,
+        pb: 1,
+        borderBottom: '1px solid #eee'
+      }}>
         فاکتور رستوران
       </Typography>
 
-      <TableContainer component={Paper} sx={{ mb: 2, boxShadow: 'none' }}>
+      {/* اطلاعات مشتری */}
+      <Box sx={{ 
+        display: 'flex',
+        justifyContent: 'space-between',
+        mb: 2
+      }}>
+        <Box>
+          <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>مشتری:</Typography>
+          <Typography>{customerName}</Typography>
+        </Box>
+        <Box>
+          <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>تاریخ:</Typography>
+          <Typography>{new Date().toLocaleString('fa-IR')}</Typography>
+        </Box>
+      </Box>
+
+      {/* جدول آیتم‌ها */}
+      <TableContainer component={Paper} sx={{ 
+        mb: 2,
+        border: '1px solid #eee',
+        borderRadius: '4px'
+      }}>
         <Table size="small">
+          <TableHead>
+            <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
+              <TableCell sx={{ fontWeight: 'bold', p: 1 }}>آیتم</TableCell>
+              <TableCell align="center" sx={{ fontWeight: 'bold', p: 1, width: '20%' }}>تعداد</TableCell>
+              <TableCell align="left" sx={{ fontWeight: 'bold', p: 1, width: '30%' }}>مبلغ</TableCell>
+            </TableRow>
+          </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell sx={{ border: 'none', fontWeight: 'bold' }}>مشتری:</TableCell>
-              <TableCell sx={{ border: 'none' }}>{customerName}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell sx={{ border: 'none', fontWeight: 'bold' }}>تاریخ:</TableCell>
-              <TableCell sx={{ border: 'none' }}>{new Date().toLocaleString('fa-IR')}</TableCell>
-            </TableRow>
+            {cart.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell sx={{ p: 1 }}>
+                  {item.name}
+                  {item.notes && (
+                    <Typography variant="caption" display="block" sx={{ color: 'text.secondary' }}>
+                      {item.notes}
+                    </Typography>
+                  )}
+                </TableCell>
+                <TableCell align="center" sx={{ p: 1 }}>{item.quantity}</TableCell>
+                <TableCell align="left" sx={{ p: 1 }}>{(item.price * item.quantity).toLocaleString()} تومان</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
 
-      {cart.length > 0 ? (
-        <>
-          <TableContainer component={Paper} sx={{ mb: 2, boxShadow: 'none' }}>
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell sx={{ fontWeight: 'bold' }}>آیتم</TableCell>
-                  <TableCell align="center" sx={{ fontWeight: 'bold' }}>تعداد</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 'bold' }}>مبلغ</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {cart.map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      {item.name}
-                      {item.notes && (
-                        <Typography variant="caption" display="block" sx={{ color: 'text.secondary' }}>
-                          {item.notes}
-                        </Typography>
-                      )}
-                    </TableCell>
-                    <TableCell align="center">{item.quantity}</TableCell>
-                    <TableCell align="right">{(item.price * item.quantity).toLocaleString()}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+      {/* جمع‌بندی مالی */}
+      <Box sx={{ 
+        border: '1px solid #eee',
+        borderRadius: '4px',
+        p: 2,
+        mb: 2
+      }}>
+        <Box sx={{ 
+          display: 'flex',
+          justifyContent: 'space-between',
+          mb: 1
+        }}>
+          <Typography>حق سرویس:</Typography>
+          <Typography>+{serviceAmount.toLocaleString()} تومان</Typography>
+        </Box>
+        
+        <Box sx={{ 
+          display: 'flex',
+          justifyContent: 'space-between',
+          mb: 1
+        }}>
+          <Typography>حق پیک:</Typography>
+          <Typography>+{deliveryFee.toLocaleString()} تومان</Typography>
+        </Box>
+        
+        {discountAmount > 0 && (
+          <Box sx={{ 
+            display: 'flex',
+            justifyContent: 'space-between',
+            mb: 1
+          }}>
+            <Typography>تخفیف:</Typography>
+            <Typography color="error">-{discountAmount.toLocaleString()} تومان</Typography>
+          </Box>
+        )}
+        
+        <Divider sx={{ my: 1 }} />
+        
+        <Box sx={{ 
+          display: 'flex',
+          justifyContent: 'space-between',
+          fontWeight: 'bold'
+        }}>
+          <Typography>جمع کل:</Typography>
+          <Typography>{total.toLocaleString()} تومان</Typography>
+        </Box>
+      </Box>
 
-          <TableContainer component={Paper} sx={{ boxShadow: 'none' }}>
-            <Table size="small">
-              <TableBody>
-                <TableRow>
-                  <TableCell sx={{ border: 'none', fontWeight: 'bold' }}>حق سرویس:</TableCell>
-                  <TableCell align="right" sx={{ border: 'none' }}>+{serviceAmount.toLocaleString()}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell sx={{ border: 'none', fontWeight: 'bold' }}>حق پیک:</TableCell>
-                  <TableCell align="right" sx={{ border: 'none' }}>+{deliveryFee.toLocaleString()}</TableCell>
-                </TableRow>
-                {discountAmount > 0 && (
-                  <TableRow>
-                    <TableCell sx={{ border: 'none', fontWeight: 'bold' }}>تخفیف:</TableCell>
-                    <TableCell align="right" sx={{ border: 'none', color: 'error.main' }}>
-                      -{discountAmount.toLocaleString()}
-                    </TableCell>
-                  </TableRow>
-                )}
-                <TableRow>
-                  <TableCell sx={{ border: 'none', fontWeight: 'bold', borderTop: '1px dashed #ddd' }}>
-                    جمع کل:
-                  </TableCell>
-                  <TableCell align="right" sx={{ border: 'none', fontWeight: 'bold', borderTop: '1px dashed #ddd' }}>
-                    {total.toLocaleString()} تومان
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-          {orderNotes && (
-            <Box sx={{ mt: 2, p: 1, backgroundColor: '#f9f9f9', borderRadius: 1 }}>
-              <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>توضیحات:</Typography>
-              <Typography variant="body2">{orderNotes}</Typography>
-            </Box>
-          )}
-        </>
-      ) : (
-        <Typography variant="body2" align="center" sx={{ p: 2 }}>
-          هیچ آیتمی در سبد خرید وجود ندارد
-        </Typography>
+      {/* توضیحات سفارش */}
+      {orderNotes && (
+        <Box sx={{ 
+          border: '1px solid #eee',
+          borderRadius: '4px',
+          p: 2,
+          mb: 2
+        }}>
+          <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: 1 }}>توضیحات سفارش:</Typography>
+          <Typography variant="body2">{orderNotes}</Typography>
+        </Box>
       )}
 
-      <Typography variant="body2" align="center" sx={{ mt: 3, fontStyle: 'italic' }}>
+      {/* پاورقی */}
+      <Typography variant="body2" align="center" sx={{ 
+        mt: 2,
+        fontStyle: 'italic',
+        color: 'text.secondary'
+      }}>
         با تشکر از انتخاب شما
       </Typography>
     </Box>
